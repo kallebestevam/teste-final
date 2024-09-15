@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .chat-container {
+            width: 80%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+        }
+        .messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .message.user1 {
+            background: #d1ffd1;
+            align-self: flex-start;
+        }
+        .message.user2 {
+            background: #d1d1ff;
+            align-self: flex-end;
+        }
+        .message p {
+            margin: 0;
+        }
+        .message-input {
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            background: #f9f9f9;
+        }
+        .message-input textarea {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            resize: none;
+        }
+        .message-input button {
+            margin-left: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        .message-input button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="messages" id="messages"></div>
+        <div class="message-input">
+            <textarea id="messageText" rows="2" placeholder="Type your message..."></textarea>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to send a message
+        function sendMessage() {
+            var messageText = document.getElementById('messageText').value;
+            if (messageText.trim() === '') return; // Ignore empty messages
+
+            // Create a new message element
+            var messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            
+            // Toggle between user1 and user2 for demonstration
+            var isUser1 = Math.random() < 0.5;
+            messageElement.classList.add(isUser1 ? 'user1' : 'user2');
+
+            var messageContent = document.createElement('p');
+            messageContent.textContent = messageText;
+            messageElement.appendChild(messageContent);
+
+            // Append message to the messages container
+            var messagesContainer = document.getElementById('messages');
+            messagesContainer.appendChild(messageElement);
+
+            // Scroll to the bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Clear the input field
+            document.getElementById('messageText').value = '';
+        }
+
+        // Allow pressing Enter to send message
+        document.getElementById('messageText').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
